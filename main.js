@@ -50,13 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gerenciamento da instalação do PWA
     let deferredPrompt = null;
-    const installBtn = elementos.installBtn;
+    const installBtn = document.getElementById('install-btn'); // Definido aqui após DOM carregado
 
     if (installBtn) {
+        installBtn.style.display = 'none'; // Oculta por padrão
+
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBtn.style.display = 'block';
+            installBtn.style.display = 'block'; // Exibe quando PWA está instalável
         });
 
         installBtn.addEventListener('click', () => {

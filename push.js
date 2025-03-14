@@ -3,7 +3,7 @@ let messaging;
 function initPush() {
     messaging = firebase.messaging(app);
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        navigator.serviceWorker.register('/sw.js')
             .then(reg => console.log('Service Worker registrado:', reg))
             .catch(err => console.error('Erro ao registrar Service Worker:', err));
     }

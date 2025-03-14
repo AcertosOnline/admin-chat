@@ -10,8 +10,8 @@ const urlsToCache = [
     '/main.js',
     '/notification.mp3',
     '/manifest.json',
-    '/icons/icon-192x192.png',
-    '/icons/icon-512x512.png'
+    '/icon-192x192.png',
+    '/icon-512x512.png'
 ];
 
 // Instalação: cachear os arquivos essenciais

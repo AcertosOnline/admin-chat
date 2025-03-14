@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-// Gerenciamento da instalação do PWA
+    // Gerenciamento da instalação do PWA
     let deferredPrompt = null;
     const installBtn = elementos.installBtn;
 

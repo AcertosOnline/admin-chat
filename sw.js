@@ -1,4 +1,4 @@
-const CACHE_NAME = 'painel-admin-v2'; // Atualizado para forçar nova versão
+const CACHE_NAME = 'painel-admin-v1'; // Atualizado para forçar nova versão
 const urlsToCache = [
     '/',
     '/index.html',
@@ -80,7 +80,7 @@ messaging.onBackgroundMessage(payload => {
         icon: '/icon-192x192.png',
         badge: '/icon-192x192.png',
         data: {
-            url: data.url || 'https://www.acertosonline.com/administrador.html',
+            url: data.url || 'https://adm.acertosonline.com/index.html',
             clienteId: data.clienteId || null
         }
     };
@@ -94,7 +94,7 @@ self.addEventListener('notificationclick', event => {
     console.log('[SW] Notificação clicada:', event.notification);
     event.notification.close();
 
-    const redirectUrl = event.notification.data?.url || 'https://www.acertosonline.com/administrador.html';
+    const redirectUrl = event.notification.data?.url || 'https://adm.acertosonline.com/index.html';
     console.log('[SW] Redirecionando para:', redirectUrl);
 
     event.waitUntil(
@@ -103,7 +103,7 @@ self.addEventListener('notificationclick', event => {
                 console.log('[SW] Clientes encontrados:', windowClients.length);
                 for (let client of windowClients) {
                     console.log('[SW] URL do cliente:', client.url);
-                    if (client.url.includes('administrador.html') && 'focus' in client) {
+                    if (client.url.includes('index.html') && 'focus' in client) {
                         console.log('[SW] Focando janela existente');
                         client.navigate(redirectUrl); // Atualiza a URL se necessário
                         return client.focus();

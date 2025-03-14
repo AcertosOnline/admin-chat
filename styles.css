@@ -58,6 +58,12 @@
 }
 
 /* Estilos gerais */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background: var(--bg-body);
     color: var(--color-text);
@@ -210,7 +216,7 @@ body {
 #main-interface {
     display: none;
     flex-direction: column;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 50px); /* Ajustado para navbar */
     flex: 1;
 }
 
@@ -231,32 +237,29 @@ body {
     gap: 20px;
     height: calc(100% - 20px);
     flex: 1;
+    overflow: hidden; /* Impede overflow fora do conteúdo principal */
 }
 
-/* Lista de clientes */
+/* Área de clientes */
 #clientes {
     background: var(--bg-clientes);
     border-radius: 8px;
     box-shadow: var(--shadow);
     padding: 15px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-    transition: background 0.3s;
     height: 100%;
     width: 30%;
+    display: flex;
+    flex-direction: column; /* Organiza busca e lista verticalmente */
+    transition: background 0.3s;
 }
 
-#clientes h3 {
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
+/* Campo de busca fixo */
 #busca-clientes {
+    flex-shrink: 0; /* Não encolhe */
+    margin-bottom: 10px;
     background: var(--bg-input);
     color: var(--color-text);
     border: 1px solid var(--border-input);
-    margin-bottom: 10px;
     font-size: 12px;
     padding: 6px;
     transition: background 0.3s, color 0.3s, border-color 0.3s;
@@ -268,6 +271,15 @@ body {
     color: var(--color-text);
     border-color: var(--bg-button);
     box-shadow: none;
+}
+
+/* Lista de clientes com scroll */
+#clientes-lista {
+    flex: 1; /* Ocupa o espaço restante */
+    overflow-y: auto; /* Scroll apenas na lista */
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 .cliente {
@@ -507,20 +519,20 @@ body {
 }
 
 /* Scrollbars personalizadas */
-#clientes::-webkit-scrollbar,
+#clientes-lista::-webkit-scrollbar,
 #chat::-webkit-scrollbar,
 #mensagem::-webkit-scrollbar {
     width: 8px;
 }
 
-#clientes::-webkit-scrollbar-track,
+#clientes-lista::-webkit-scrollbar-track,
 #chat::-webkit-scrollbar-track,
 #mensagem::-webkit-scrollbar-track {
     background: var(--scrollbar-track);
     border-radius: 4px;
 }
 
-#clientes::-webkit-scrollbar-thumb,
+#clientes-lista::-webkit-scrollbar-thumb,
 #chat::-webkit-scrollbar-thumb,
 #mensagem::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
@@ -532,7 +544,14 @@ body {
     body { height: auto; }
     #main-interface { height: auto; }
     .main-content { flex-direction: column; height: auto; padding: 10px; }
-    #clientes { width: 100%; height: auto; max-height: 300px; }
+    #clientes { 
+        width: 100%; 
+        height: auto; 
+        max-height: 300px; /* Limite em telas pequenas */
+    }
+    #clientes-lista { 
+        max-height: calc(300px - 50px); /* Ajusta para o #busca-clientes */
+    }
     #chat-container { width: 100%; height: auto; }
     #chat { max-height: 200px; }
     #theme-toggle { font-size: 14px; padding: 4px 8px; top: 8px; right: 10px; }

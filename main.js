@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (localStorage.getItem('theme') === 'light') toggleTheme();
 
-        // const urlParams = new URLSearchParams(window.location.search);
-        // const clienteIdFromUrl = urlParams.get('clienteId');
-        // if (clienteIdFromUrl) selecionarCliente(clienteIdFromUrl);
+    const urlParams = new URLSearchParams(window.location.search);
+    const clienteIdFromUrl = urlParams.get('clienteId');
+    if (clienteIdFromUrl) selecionarCliente(clienteIdFromUrl);
 
     // Registro do Service Worker para PWA
     if ('serviceWorker' in navigator) {
@@ -85,12 +85,3 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Elemento #install-btn não encontrado no DOM!');
     }
 });
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const clienteIdFromUrl = urlParams.get('clienteId');
-            if (clienteIdFromUrl) {
-                selecionarCliente(clienteIdFromUrl);
-            }
-        });

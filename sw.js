@@ -1,4 +1,4 @@
-const CACHE_NAME = 'painel-admin-v1'; // Atualizado para forçar nova versão
+const CACHE_NAME = 'painel-admin-v1';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -24,7 +24,7 @@ self.addEventListener('install', event => {
                 return cache.addAll(urlsToCache);
             })
             .catch(error => console.error('[SW] Erro ao cachear arquivos:', error))
-            .then(() => self.skipWaiting()) // Força ativação imediata
+            .then(() => self.skipWaiting())
     );
 });
 
@@ -37,7 +37,7 @@ self.addEventListener('activate', event => {
                 cacheNames.filter(name => name !== CACHE_NAME)
                     .map(name => caches.delete(name))
             );
-        }).then(() => self.clients.claim()) // Assume controle imediato
+        }).then(() => self.clients.claim())
     );
 });
 
@@ -50,11 +50,12 @@ self.addEventListener('fetch', event => {
     );
 });
 
-// Clicar na notificação: redirecionar para a página com clienteId
+// Clicar na notificação: redirecionar para a URL especificada
 self.addEventListener('notificationclick', event => {
     console.log('[SW] Notificação clicada:', event.notification);
     event.notification.close();
 
+    // Usa a URL do campo `data.url` da notificação ou um fallback
     const redirectUrl = event.notification.data?.url || 'https://adm.acertosonline.com/index.html';
     console.log('[SW] Redirecionando para:', redirectUrl);
 
@@ -63,10 +64,9 @@ self.addEventListener('notificationclick', event => {
             .then(windowClients => {
                 console.log('[SW] Clientes encontrados:', windowClients.length);
                 for (let client of windowClients) {
-                    console.log('[SW] URL do cliente:', client.url);
                     if (client.url.includes('index.html') && 'focus' in client) {
                         console.log('[SW] Focando janela existente');
-                        client.navigate(redirectUrl); // Atualiza a URL se necessário
+                        client.navigate(redirectUrl); // Atualiza a URL
                         return client.focus();
                     }
                 }

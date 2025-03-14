@@ -18,9 +18,16 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(payload => {
     console.log('[firebase-messaging-sw.js] Mensagem em background:', payload);
-    const notification = payload.notification;
-    self.registration.showNotification(notification.title, {
-        body: notification.body,
-        icon: '/icon.png' // Opcional: substitua por um ícone válido
-    });
+    const notification = payload.notification || {};
+    const data = payload.data || {};
+
+    const notificationOptions = {
+        body: notification.body || 'Você recebeu uma nova mensagem.',
+        icon: '/icon.png', // Substitua por um ícone válido
+        data: {
+            url: data.url || 'https://adm.acertosonline.com/index.html' // URL padrão ou do payload
+        }
+    };
+
+    self.registration.showNotification(notification.title || 'Nova Mensagem', notificationOptions);
 });

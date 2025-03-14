@@ -14,24 +14,6 @@ const urlsToCache = [
     '/icon-512x512.png'
 ];
 
-// Importar Firebase no Service Worker
-self.importScripts('https://www.gstatic.com/firebasejs/11.4.0/firebase-app-compat.js');
-self.importScripts('https://www.gstatic.com/firebasejs/11.4.0/firebase-messaging-compat.js');
-
-const firebaseConfig = {
-    apiKey: "AIzaSyA1C3iYQe22zhTP5HVj19atOZLROtba3rw",
-    authDomain: "jogo-do-bicho-421ff.firebaseapp.com",
-    databaseURL: "https://jogo-do-bicho-421ff-default-rtdb.firebaseio.com",
-    projectId: "jogo-do-bicho-421ff",
-    storageBucket: "jogo-do-bicho-421ff.firebasestorage.app",
-    messagingSenderId: "1023919123583",
-    appId: "1:1023919123583:web:b6c561fb121fe54f9e234a",
-    measurementId: "G-BPH150V2SG"
-};
-
-firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
-
 // Instalação: cachear os arquivos essenciais
 self.addEventListener('install', event => {
     console.log('[SW] Instalando Service Worker...');
@@ -68,27 +50,6 @@ self.addEventListener('fetch', event => {
     );
 });
 
-// Receber notificação push (Firebase Messaging)
-messaging.onBackgroundMessage(payload => {
-    console.log('[SW] Mensagem em background recebida:', payload);
-    const notification = payload.notification || {};
-    const data = payload.data || {};
-
-    const title = notification.title || 'Nova Mensagem';
-    const options = {
-        body: notification.body || 'Você recebeu uma nova mensagem.',
-        icon: '/icon-192x192.png',
-        badge: '/icon-192x192.png',
-        data: {
-            url: data.url || 'https://adm.acertosonline.com/index.html',
-            clienteId: data.clienteId || null
-        }
-    };
-
-    console.log('[SW] Exibindo notificação:', { title, options });
-    return self.registration.showNotification(title, options);
-});
-
 // Clicar na notificação: redirecionar para a página com clienteId
 self.addEventListener('notificationclick', event => {
     console.log('[SW] Notificação clicada:', event.notification);
@@ -115,8 +76,6 @@ self.addEventListener('notificationclick', event => {
                 }
                 console.log('[SW] clients.openWindow não disponível');
             })
-            .catch(error => {
-                console.error('[SW] Erro ao redirecionar:', error);
-            })
+            .catch(error => console.error('[SW] Erro ao redirecionar:', error))
     );
 });

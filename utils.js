@@ -26,7 +26,8 @@ const elementos = {
     modalInput: document.getElementById('modal-input'),
     modalConfirm: document.getElementById('modal-confirm'),
     modalCancel: document.getElementById('modal-cancel'),
-    notificationSound: document.getElementById('notification-sound') // Adicionado
+    notificationSound: document.getElementById('notification-sound')
+    installBtn: document.getElementById('install-btn')
 };
 
 function formatarTimestamp(t) {

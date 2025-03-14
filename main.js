@@ -52,35 +52,33 @@ document.addEventListener('DOMContentLoaded', () => {
     let deferredPrompt = null;
     const installBtn = elementos.installBtn;
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Impede o prompt automático e armazena o evento
-        e.preventDefault();
-        deferredPrompt = e;
-        // Exibe o botão de instalação no menu
-        installBtn.style.display = 'block';
-    });
+    if (installBtn) {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
 
-    installBtn.addEventListener('click', () => {
-        if (deferredPrompt) {
-            // Mostra o prompt de instalação
-            deferredPrompt.prompt();
-            // Aguarda a escolha do usuário
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('Usuário aceitou instalar o PWA');
-                } else {
-                    console.log('Usuário recusou instalar o PWA');
-                }
-                deferredPrompt = null;
-                // Oculta o botão após a tentativa de instalação
-                installBtn.style.display = 'none';
-            });
-        }
-    });
+        installBtn.addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário aceitou instalar o PWA');
+                    } else {
+                        console.log('Usuário recusou instalar o PWA');
+                    }
+                    deferredPrompt = null;
+                    installBtn.style.display = 'none';
+                });
+            }
+        });
 
-    // Evento disparado após a instalação bem-sucedida
-    window.addEventListener('appinstalled', () => {
-        console.log('PWA foi instalado com sucesso!');
-        installBtn.style.display = 'none';
-    });
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA foi instalado com sucesso!');
+            installBtn.style.display = 'none';
+        });
+    } else {
+        console.error('Elemento #install-btn não encontrado no DOM!');
+    }
 });

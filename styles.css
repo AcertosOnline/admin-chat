@@ -1,0 +1,541 @@
+/* Variáveis CSS para temas claro e escuro */
+:root {
+    --bg-body: #FFFFFF;
+    --color-text: #16191F;
+    --bg-navbar: #FFFFFF;
+    --border-navbar: #D5D9D9;
+    --bg-clientes: #FAFAFA;
+    --bg-chat: #FAFAFA;
+    --bg-message-client: #E6F0FA;
+    --bg-message-admin: #F5F6F5;
+    --color-message-client: #000000;
+    --color-message-admin: #000000;
+    --color-timestamp: #000000;
+    --bg-input: #FFFFFF;
+    --border-input: #D5D9D9;
+    --color-placeholder: #767676;
+    --bg-button: #F7CA00;
+    --bg-button-hover: #E0B400;
+    --bg-button-disabled: #D5D9D9;
+    --color-button-text: #16191F; /* Nova variável para texto do botão */
+    --color-status-online: #007185;
+    --color-status-offline: #B12704;
+    --scrollbar-track: rgba(0, 0, 0, 0.1);
+    --scrollbar-thumb: #A0A0A0;
+    --bg-modal: #FFFFFF;
+    --bg-modal-input: #F5F6F5;
+    --border-modal-input: #D5D9D9;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme {
+    --bg-body: #16191F;
+    --color-text: #E6E6E6;
+    --bg-navbar: #232F3E;
+    --border-navbar: #3A4553;
+    --bg-clientes: #1F2A38;
+    --bg-chat: #1F2A38;
+    --bg-message-client: #004B91;
+    --bg-message-admin: #37475A;
+    --color-message-client: #FFFFFF;
+    --color-message-admin: #FFFFFF;
+    --color-timestamp: #FFFFFF;
+    --bg-input: #37475A;
+    --border-input: #5A6778;
+    --color-placeholder: #A0A0A0;
+    --bg-button: #DAA520;
+    --bg-button-hover: #C49200;
+    --bg-button-disabled: #5A6778;
+    --color-button-text: #FFFFFF; /* Texto branco no tema escuro para contraste */
+    --color-status-online: #00A4B4;
+    --color-status-offline: #D13212;
+    --scrollbar-track: rgba(255, 255, 255, 0.1);
+    --scrollbar-thumb: #767676;
+    --bg-modal: #232F3E;
+    --bg-modal-input: #37475A;
+    --border-modal-input: #5A6778;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos gerais */
+body {
+    background: var(--bg-body);
+    color: var(--color-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s, color 0.3s;
+    height: 100vh;
+}
+
+/* Tela de carregamento e modais */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--bg-modal);
+    color: var(--color-text);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    max-width: 400px;
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    background: var(--bg-modal-input);
+    color: var(--color-text);
+    border: 1px solid var(--border-modal-input);
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.modal-input:focus {
+    border-color: var(--bg-button);
+    outline: none;
+}
+
+.modal-btn {
+    background: var(--bg-button);
+    color: var(--color-button-text);
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.modal-btn:hover { background: var(--bg-button-hover); }
+
+/* Navbar */
+.navbar {
+    background: var(--bg-navbar);
+    border-bottom: 1px solid var(--border-navbar);
+    padding: 5px 20px;
+    position: relative;
+    box-shadow: var(--shadow);
+    transition: background 0.3s;
+    height: 50px;
+    flex-shrink: 0;
+}
+
+.navbar-brand {
+    color: var(--color-text);
+}
+
+.container-fluid {
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Botões da navbar */
+#theme-toggle, #settings-toggle {
+    background: none;
+    color: var(--color-button-text);
+    border: none;
+    padding: 6px 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#theme-toggle:hover, #settings-toggle:hover { background: var(--bg-button-hover); }
+#theme-toggle i, #settings-toggle i { margin: 0; }
+#theme-toggle { position: absolute; top: 8px; right: 20px; }
+#settings-toggle { position: absolute; top: 8px; right: 60px; }
+
+#settings-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    background: var(--bg-navbar);
+    border: 1px solid var(--border-navbar);
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    padding: 10px;
+}
+
+.settings-action {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--color-text);
+    padding: 5px 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.settings-action:hover { color: var(--bg-button); }
+
+/* Interface principal */
+#main-interface {
+    display: none;
+    flex-direction: column;
+    height: calc(100vh - 50px);
+    flex: 1;
+}
+
+#push-subscription {
+    padding: 5px;
+    text-align: center;
+    display: none;
+    flex-shrink: 0;
+}
+
+#push-subscription p {
+    color: var(--color-timestamp);
+}
+
+.main-content {
+    display: flex;
+    padding: 10px 20px;
+    gap: 20px;
+    height: calc(100% - 20px);
+    flex: 1;
+}
+
+/* Lista de clientes */
+#clientes {
+    background: var(--bg-clientes);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 15px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    transition: background 0.3s;
+    height: 100%;
+    width: 30%;
+}
+
+#clientes h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+#busca-clientes {
+    background: var(--bg-input);
+    color: var(--color-text);
+    border: 1px solid var(--border-input);
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 6px;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+#busca-clientes::placeholder { color: var(--color-placeholder); }
+#busca-clientes:focus {
+    background: var(--bg-input);
+    color: var(--color-text);
+    border-color: var(--bg-button);
+    box-shadow: none;
+}
+
+.cliente {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.3s;
+}
+
+.cliente:hover { background: var(--bg-message-client); }
+.cliente-id {
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.unread-icon { color: var(--color-status-online); margin-left: 5px; font-size: 14px; }
+.online { color: var(--color-status-online); }
+.offline { color: var(--color-status-offline); }
+.selecionado { background: var(--bg-button); color: var(--color-button-text); }
+
+.rename-action, .delete-action {
+    background: none;
+    border: none;
+    padding: 0 5px;
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 12px;
+    transition: color 0.3s;
+}
+
+.rename-action:hover, .delete-action:hover { color: var(--bg-button); }
+
+/* Área de chat */
+#chat-container {
+    flex: 1;
+    background: var(--bg-chat);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s;
+    height: 100%;
+}
+
+.chat-header {
+    background: var(--bg-chat);
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border-navbar);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s, border-color 0.3s;
+    flex-shrink: 0;
+}
+
+.chat-header h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+#chat {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    transition: background 0.3s;
+    max-height: 300px;
+}
+
+.chat-status { font-size: 12px; }
+.chat-status.online { color: var(--color-status-online); }
+.chat-status.offline { color: var(--color-status-offline); }
+
+.mensagem {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 80%;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    box-shadow: var(--shadow);
+    transition: background 0.3s, color 0.3s;
+}
+
+.admin-msg {
+    margin-left: auto;
+    background: var(--bg-message-client);
+    color: var(--color-message-admin);
+}
+
+.admin-msg b { color: var(--color-status-online); }
+
+.cliente-msg {
+    margin-right: auto;
+    background: var(--bg-message-admin);
+    color: var(--color-message-client);
+}
+
+.cliente-msg b { color: var(--color-status-online); }
+
+.timestamp {
+    font-size: 10px;
+    color: var(--color-timestamp);
+    display: block;
+    margin-top: 2px;
+    opacity: 0.9;
+    transition: color 0.3s;
+}
+
+/* Input de mensagem */
+.input-group {
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.form-control {
+    background: var(--bg-input);
+    color: var(--color-text);
+    border: 1px solid var(--border-input);
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.form-control::placeholder { color: var(--color-placeholder); }
+.form-control:focus {
+    background: var(--bg-input);
+    color: var(--color-text);
+    border-color: var(--bg-button);
+    box-shadow: none;
+}
+
+#mensagem {
+    resize: none;
+    height: 80px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+#enviar-btn {
+    background: var(--bg-button);
+    color: var(--color-button-text);
+    transition: background 0.3s;
+}
+
+#enviar-btn:hover { background: var(--bg-button-hover); }
+
+.char-count {
+    font-size: 12px;
+    color: var(--color-timestamp);
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+.char-count.warning { color: #FF5555; }
+
+/* Indicador de digitação */
+#typing-indicator {
+    font-size: 12px;
+    color: var(--color-timestamp);
+    font-style: italic;
+    margin: 5px 0;
+    flex-shrink: 0;
+}
+
+/* Tela de login */
+#login-screen {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--bg-body);
+    transition: background 0.3s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1500;
+}
+
+#login-container {
+    background: var(--bg-chat);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 400px;
+    transition: background 0.3s;
+}
+
+#login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#login-error {
+    color: #FF5555;
+    text-align: center;
+    margin-top: 10px;
+    display: none;
+}
+
+/* Estilo específico para o botão Entrar */
+#login-btn {
+    background: var(--bg-button);
+    color: var(--color-button-text);
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%; /* Garante que o botão ocupe toda a largura */
+}
+
+#login-btn:hover {
+    background: var(--bg-button-hover);
+}
+
+#login-btn:disabled {
+    background: var(--bg-button-disabled);
+    cursor: not-allowed;
+}
+
+/* Scrollbars personalizadas */
+#clientes::-webkit-scrollbar,
+#chat::-webkit-scrollbar,
+#mensagem::-webkit-scrollbar {
+    width: 8px;
+}
+
+#clientes::-webkit-scrollbar-track,
+#chat::-webkit-scrollbar-track,
+#mensagem::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 4px;
+}
+
+#clientes::-webkit-scrollbar-thumb,
+#chat::-webkit-scrollbar-thumb,
+#mensagem::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    body { height: auto; }
+    #main-interface { height: auto; }
+    .main-content { flex-direction: column; height: auto; padding: 10px; }
+    #clientes { width: 100%; height: auto; max-height: 300px; }
+    #chat-container { width: 100%; height: auto; }
+    #chat { max-height: 200px; }
+    #theme-toggle { font-size: 14px; padding: 4px 8px; top: 8px; right: 10px; }
+    #settings-toggle { font-size: 14px; padding: 4px 8px; top: 8px; right: 50px; }
+    #settings-menu { top: 35px; right: 10px; }
+}

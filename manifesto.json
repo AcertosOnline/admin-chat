@@ -1,0 +1,21 @@
+{
+    "name": "Painel do Administrador",
+    "short_name": "Painel Admin",
+    "description": "Painel de chat para administradores",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#16191F",
+    "theme_color": "#F7CA00",
+    "icons": [
+        {
+            "src": "icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

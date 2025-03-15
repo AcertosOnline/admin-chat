@@ -4,11 +4,10 @@ function initPush() {
     // Inicializa o Firebase Messaging
     messaging = firebase.messaging(app);
 
-    // Usa o Service Worker registrado no main.js
+    // O Service Worker já está registrado no main.js
+    // Não é necessário usar messaging.useServiceWorker na v11.4.0
     navigator.serviceWorker.ready.then(registration => {
-        // Associa o Service Worker ao Firebase Messaging
-        messaging.useServiceWorker(registration);
-        console.log('Firebase Messaging associado ao Service Worker:', registration);
+        console.log('Service Worker pronto para Firebase Messaging:', registration);
 
         // Opcional: trata mensagens em foreground para depuração
         messaging.onMessage(payload => {
@@ -25,7 +24,7 @@ function initPush() {
             });
         });
     }).catch(err => {
-        console.error('Erro ao associar Service Worker ao Firebase Messaging:', err);
+        console.error('Erro ao acessar Service Worker:', err);
     });
 }
 
@@ -34,9 +33,12 @@ function subscribeToPush() {
     Notification.requestPermission()
         .then(permission => {
             if (permission === 'granted') {
-                return messaging.getToken({ 
-                    vapidKey: 'BCIRsN3lHlpe7xAnIdYKAdcCD6vGBt9bAjkXUrRWfpg7O_WA1w_bfM3QfcjeQ1DR4FUYu9K36kQ-A5zvM2YsQiA',
-                    serviceWorkerRegistration: navigator.serviceWorker.ready // Usa o SW registrado
+                // Usa o Service Worker registrado no main.js
+                return navigator.serviceWorker.ready.then(registration => {
+                    return messaging.getToken({
+                        vapidKey: 'BCIRsN3lHlpe7xAnIdYKAdcCD6vGBt9bAjkXUrRWfpg7O_WA1w_bfM3QfcjeQ1DR4FUYu9K36kQ-A5zvM2YsQiA',
+                        serviceWorkerRegistration: registration // Passa o registration aqui
+                    });
                 });
             }
             throw new Error('Permissão negada para notificações.');

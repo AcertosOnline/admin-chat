@@ -1,7 +1,20 @@
 let messaging;
 
 function initPush(registration) {
-    messaging = firebase.messaging(app); // Inicializa após o Service Worker estar registrado
+    if (!firebase.apps.length) {
+        const firebaseConfig = {
+            apiKey: "AIzaSyA1C3iYQe22zhTP5HVj19atOZLROtba3rw",
+            authDomain: "jogo-do-bicho-421ff.firebaseapp.com",
+            databaseURL: "https://jogo-do-bicho-421ff-default-rtdb.firebaseio.com",
+            projectId: "jogo-do-bicho-421ff",
+            storageBucket: "jogo-do-bicho-421ff.firebasestorage.app",
+            messagingSenderId: "1023919123583",
+            appId: "1:1023919123583:web:b6c561fb121fe54f9e234a",
+            measurementId: "G-BPH150V2SG"
+        };
+        firebase.initializeApp(firebaseConfig);
+    }
+    messaging = firebase.messaging(); // Não precisa de `app` explicitamente se houver apenas uma instância
     console.log('Firebase Messaging inicializado com Service Worker:', registration);
 }
 
@@ -32,7 +45,7 @@ function subscribeToPush() {
             }
         })
         .catch(err => {
-            const msg = err.code === 'messaging/permission-blocked' ? 'Notificações bloqueadas pelo navegador.' : err.message;
+            const msg = err.code === 'messaging/permission-blocked' ? 'Notificações bloqueadas pelo navegador. Verifique as configurações do Brave.' : err.message;
             customAlert(msg);
         })
         .finally(() => elementos.subscribeBtn.disabled = false);

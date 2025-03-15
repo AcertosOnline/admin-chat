@@ -3,15 +3,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Registro consolidado do Service Worker
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/firebase-messaging-sw.js') // Alterado para firebase-messaging-sw.js
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
             .then(registration => {
                 console.log('Service Worker registrado com sucesso:', registration);
                 registration.update(); // Força atualização do SW
                 initPush(registration); // Inicializa o Firebase Messaging após o registro
+                elementos.subscribeBtn.disabled = false; // Habilita o botão após inicialização
             })
             .catch(error => {
                 console.error('Erro ao registrar Service Worker:', error);
+                customAlert('Erro ao registrar Service Worker. Notificações push não funcionarão.');
             });
+    } else {
+        console.error('Service Workers não suportados neste navegador.');
+        customAlert('Este navegador não suporta notificações push.');
     }
 
     auth.onAuthStateChanged(user => {

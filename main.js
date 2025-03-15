@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Registro consolidado do Service Worker
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('/firebase-messaging-sw.js') // Alterado para firebase-messaging-sw.js
             .then(registration => {
                 console.log('Service Worker registrado com sucesso:', registration);
                 registration.update(); // Força atualização do SW
@@ -51,15 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gerenciamento da instalação do PWA
     let deferredPrompt = null;
-    const installBtn = document.getElementById('install-btn'); // Definido aqui após DOM carregado
+    const installBtn = document.getElementById('install-btn');
 
     if (installBtn) {
-        installBtn.style.display = 'none'; // Oculta por padrão
+        installBtn.style.display = 'none';
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBtn.style.display = 'block'; // Exibe quando PWA está instalável
+            installBtn.style.display = 'block';
         });
 
         installBtn.addEventListener('click', () => {

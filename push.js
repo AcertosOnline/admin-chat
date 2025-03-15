@@ -1,32 +1,12 @@
 let messaging;
 
 function initPush() {
-    // Inicializa o Firebase Messaging
     messaging = firebase.messaging(app);
-
-    // Usa o Service Worker registrado no main.js
-    navigator.serviceWorker.ready.then(registration => {
-        // Associa o Service Worker ao Firebase Messaging
-        messaging.useServiceWorker(registration);
-        console.log('Firebase Messaging associado ao Service Worker:', registration);
-
-        // Opcional: trata mensagens em foreground para depuração
-        messaging.onMessage(payload => {
-            console.log('Mensagem recebida em foreground:', payload);
-            const notification = payload.notification || {};
-            const data = payload.data || {};
-            const url = data.url || 'https://adm.acertosonline.com/index.html';
-
-            // Exibe notificação em foreground (opcional)
-            registration.showNotification(notification.title || 'Nova Mensagem', {
-                body: notification.body || 'Você recebeu uma nova mensagem.',
-                icon: '/icon-192x192.png',
-                data: { url }
-            });
-        });
-    }).catch(err => {
-        console.error('Erro ao associar Service Worker ao Firebase Messaging:', err);
-    });
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker registrado:', reg))
+            .catch(err => console.error('Erro ao registrar Service Worker:', err));
+    }
 }
 
 function subscribeToPush() {
@@ -34,10 +14,7 @@ function subscribeToPush() {
     Notification.requestPermission()
         .then(permission => {
             if (permission === 'granted') {
-                return messaging.getToken({ 
-                    vapidKey: 'BCIRsN3lHlpe7xAnIdYKAdcCD6vGBt9bAjkXUrRWfpg7O_WA1w_bfM3QfcjeQ1DR4FUYu9K36kQ-A5zvM2YsQiA',
-                    serviceWorkerRegistration: navigator.serviceWorker.ready // Usa o SW registrado
-                });
+                return messaging.getToken({ vapidKey: 'BCIRsN3lHlpe7xAnIdYKAdcCD6vGBt9bAjkXUrRWfpg7O_WA1w_bfM3QfcjeQ1DR4FUYu9K36kQ-A5zvM2YsQiA' });
             }
             throw new Error('Permissão negada para notificações.');
         })

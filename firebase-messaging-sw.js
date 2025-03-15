@@ -16,7 +16,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-const CACHE_NAME = 'painel-admin-v1';
+const CACHE_NAME = 'painel-admin-v3';
 const urlsToCache = [
     '/',
     '/index.html',

@@ -1,6 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     initAuth();
-    initPush();
+
+    // Registro consolidado do Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('Service Worker registrado com sucesso:', registration);
+                registration.update(); // Força atualização do SW
+                initPush(registration); // Inicializa o Firebase Messaging após o registro
+            })
+            .catch(error => {
+                console.error('Erro ao registrar Service Worker:', error);
+            });
+    }
 
     auth.onAuthStateChanged(user => {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -36,18 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const clienteIdFromUrl = urlParams.get('clienteId');
     if (clienteIdFromUrl) selecionarCliente(clienteIdFromUrl);
-
-    // Registro do Service Worker para PWA
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('Service Worker do PWA registrado com sucesso:', registration);
-                registration.update(); // Força atualização do SW
-            })
-            .catch(error => {
-                console.error('Erro ao registrar Service Worker do PWA:', error);
-            });
-    }
 
     // Gerenciamento da instalação do PWA
     let deferredPrompt = null;

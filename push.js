@@ -1,15 +1,15 @@
 let messaging;
 
-function initPush() {
-    messaging = firebase.messaging(app);
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
-            .then(reg => console.log('Service Worker registrado:', reg))
-            .catch(err => console.error('Erro ao registrar Service Worker:', err));
-    }
+function initPush(registration) {
+    messaging = firebase.messaging(app); // Inicializa após o Service Worker estar registrado
+    console.log('Firebase Messaging inicializado com Service Worker:', registration);
 }
 
 function subscribeToPush() {
+    if (!messaging) {
+        customAlert('Notificações push não inicializadas ainda. Tente novamente em breve.');
+        return;
+    }
     elementos.subscribeBtn.disabled = true;
     Notification.requestPermission()
         .then(permission => {
